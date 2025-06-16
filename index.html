@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tool Dự Đoán Tài/Xỉu Go88</title>
+  <style>
+    @keyframes rainbowText {
+      0% { color: red; }
+      16% { color: orange; }
+      32% { color: yellow; }
+      48% { color: green; }
+      64% { color: blue; }
+      80% { color: indigo; }
+      100% { color: violet; }
+    }
+
+    @keyframes rainbowBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+      background-size: 1600% 1600%;
+      animation: rainbowBG 20s linear infinite;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      padding: 30px 20px;
+      max-width: 540px;
+      margin: auto;
+      border: 3px solid white;
+      box-shadow: 0 0 35px rgba(255, 255, 255, 0.5);
+      position: relative;
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      top: -3px; bottom: -3px; left: -3px; right: -3px;
+      background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+      border-radius: 25px;
+      z-index: -1;
+      filter: blur(10px);
+      animation: rainbowBG 6s linear infinite;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+      animation: rainbowText 6s linear infinite;
+      text-shadow: 0 0 10px #fff;
+    }
+
+    .dice {
+      font-size: 65px;
+      margin-bottom: 10px;
+      animation: shimmer 4s linear infinite;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 90%;
+      max-width: 400px;
+      padding: 15px;
+      font-size: 18px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      margin-bottom: 20px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      border: 2px solid transparent;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      border: 2px solid cyan;
+      box-shadow: 0 0 20px cyan;
+    }
+
+    button {
+      background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+      background-size: 400%;
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.4);
+      animation: rainbowBG 10s linear infinite;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px white;
+    }
+
+    #result {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 20px;
+      animation: rainbowText 4s infinite;
+    }
+
+    #suggestion {
+      margin-top: 15px;
+      font-size: 17px;
+      color: #f0f0f0;
+    }
+
+    #history {
+      margin-top: 25px;
+      max-height: 220px;
+      overflow-y: auto;
+      background: rgba(255,255,255,0.12);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: left;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.4);
+      font-size: 15px;
+      color: #fff;
+      border: 1px solid #fff;
+      animation: shimmer 12s linear infinite;
+      background-image: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
+      background-size: 200% auto;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+      font-style: italic;
+      animation: rainbowText 8s linear infinite;
+      text-shadow: 0 0 10px #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="dice">🎲</div>
+    <h1>Tool Dự Đoán Tài/Xỉu Go88 DEEPLOGIC V11</h1>
+
+    <input type="number" id="vonInput" placeholder="Nhập số vốn (VNĐ)" />
+    <br>
+    <input type="text" id="md5Input" placeholder="Nhập mã MD5 tại đây" />
+    <br>
+    <button onclick="duDoan()">✨ Dự Đoán</button>
+
+    <div id="result"></div>
+    <div id="suggestion"></div>
+    <div id="history"></div>
+  </div>
+
+  <div class="footer">
+    Cre: Trần Quốc Trịnh – Trùm Kéo Thuê Go88
+  </div>
+
+  <script>
+    let history = [];
+    let countTai = 0;
+    let countXiu = 0;
+
+    function duDoan() {
+      const von = parseFloat(document.getElementById("vonInput").value);
+      const md5Input = document.getElementById("md5Input");
+      const md5 = md5Input.value.trim();
+
+      if (md5.length !== 32) {
+        alert("Mã MD5 không hợp lệ. Vui lòng nhập đúng 32 ký tự.");
+        return;
+      }
+
+      let hex = md5.slice(0, 6);
+      let total = parseInt(hex, 16);
+      let ketQua = total % 2 === 0 ? "XỈU" : "TÀI";
+
+      if (ketQua === "TÀI") countTai++;
+      else countXiu++;
+
+      const totalCount = countTai + countXiu;
+      const percentTai = ((countTai / totalCount) * 100).toFixed(1);
+      const percentXiu = ((countXiu / totalCount) * 100).toFixed(1);
+
+      document.getElementById("result").innerText = " KẾT QUẢ: " + ketQua;
+
+      if (!isNaN(von) && von > 0) {
+        const goiY = Math.round(von * 0.4);
+        document.getElementById("suggestion").innerText = " Gợi ý cược: " + goiY.toLocaleString() + " VNĐ";
+      } else {
+        document.getElementById("suggestion").innerText = "";
+      }
+
+      history.unshift("[" + ketQua + "] " + md5.toUpperCase());
+      if (history.length > 10) history.pop();
+      document.getElementById("history").innerHTML =
+        "<b>Lịch sử dự đoán:</b><br>" + history.join("<br>") +
+        `<br><br><b> Thống kê:</b> TÀI – ${percentTai}% | XỈU – ${percentXiu}%`;
+
+      md5Input.value = "";
+    }
+  </script>
+
+</body>
+</html>
